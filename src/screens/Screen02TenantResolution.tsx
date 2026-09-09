@@ -21,14 +21,39 @@ const studentSteps = [
   "Applying record-level access scope",
 ]
 
+const externalSteps = [
+  "Detecting organization from email domain",
+  "Searching LinkBlock Trust Registry",
+  "Checking organization trust status",
+  "Verifying authorized organization user",
+  "Checking approved attestation scope",
+  "Establishing tenant-isolated external session",
+]
+
 export default function Screen02TenantResolution({ navigate, persona }: Props) {
   const [completedSteps, setCompletedSteps] = useState(0)
   const [done, setDone] = useState(false)
 
-  const steps = persona === "student" ? studentSteps : adminSteps
   const isStudent = persona === "student"
-  const accentColor = isStudent ? "#6941C6" : "#3157E5"
-  const accentBg = isStudent ? "#F4F0FD" : "#EEF2FF"
+const isExternal = persona === "external"
+
+const steps = isStudent
+  ? studentSteps
+  : isExternal
+  ? externalSteps
+  : adminSteps
+
+const accentColor = isStudent
+  ? "#6941C6"
+  : isExternal
+  ? "#0F766E"
+  : "#3157E5"
+
+const accentBg = isStudent
+  ? "#F4F0FD"
+  : isExternal
+  ? "#F0FDFA"
+  : "#EEF2FF"
 
   useEffect(() => {
     setCompletedSteps(0)
@@ -45,7 +70,11 @@ export default function Screen02TenantResolution({ navigate, persona }: Props) {
     }
   }, [completedSteps, steps.length])
 
-  const destScreen: Screen = isStudent ? "student-home" : "dashboard"
+  const destScreen: Screen = isStudent
+  ? "student-home"
+  : isExternal
+  ? "ns-returning-org"
+  : "dashboard"
 
   return (
     <div style={{ minHeight: "100vh", background: "#F6F7FA", display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", padding: 32 }}>
@@ -65,7 +94,11 @@ export default function Screen02TenantResolution({ navigate, persona }: Props) {
             <div style={{ textAlign: "center", marginBottom: 28 }}>
               <p style={{ color: "#374151", fontSize: 14, fontWeight: 500, margin: "0 0 4px" }}>Verifying access for</p>
               <p style={{ fontFamily: "'JetBrains Mono', monospace", color: accentColor, fontSize: 14, margin: 0 }}>
-                {isStudent ? "olivia.chen@algomau.ca" : "alex.morgan@algomau.ca"}
+                {isStudent
+  ? "olivia.chen@algomau.ca"
+  : isExternal
+  ? "sarah.thompson@northstartech.ca"
+  : "alex.morgan@algomau.ca"}
               </p>
             </div>
             <div style={{ display: "flex", flexDirection: "column", gap: 0 }}>
@@ -109,25 +142,106 @@ export default function Screen02TenantResolution({ navigate, persona }: Props) {
 
             <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 10, marginBottom: 20 }}>
               {[
-                { label: "Organization", value: "Algoma University", highlight: true },
-                { label: "Domain", value: "algomau.ca", mono: true },
-                { label: "Trust Registry", value: "Active", success: true },
-                { label: "Authentication", value: "Institution SSO verified", success: true },
-                { label: "Role", value: isStudent ? "Student / Learner" : "Credential Administrator", blue: true, violet: isStudent },
-                { label: "Permission Profile", value: isStudent ? "Personal Credential Access" : "Institution Credential Operations", blue: true, violet: isStudent },
-                { label: "Tenant ID", value: "tenant_algoma_001", mono: true },
-                { label: "Data Scope", value: isStudent ? "Own credential records only" : "Institution credential operations", warn: isStudent },
-              ].map(item => (
-                <div key={item.label} style={{ background: "#F9FAFB", border: "1px solid #E4E7EC", borderRadius: 8, padding: "10px 12px" }}>
-                  <p style={{ color: "#9CA3AF", fontSize: 11, margin: "0 0 3px", fontWeight: 500, letterSpacing: "0.03em" }}>{item.label.toUpperCase()}</p>
-                  <p style={{
-                    margin: 0, fontSize: 12, fontWeight: (item as any).highlight ? 700 : 500,
-                    fontFamily: item.mono ? "'JetBrains Mono', monospace" : "inherit",
-                    color: item.success ? "#167A5A" : (item as any).violet ? "#6941C6" : (item as any).blue ? "#3157E5" : (item as any).warn ? "#B66A15" : "#111827",
-                    wordBreak: "break-all"
-                  }}>{item.value}</p>
-                </div>
-              ))}
+  {
+    label: "Organization",
+    value: isExternal ? "NorthStar Technologies" : "Algoma University",
+    highlight: true
+  },
+  {
+    label: "Domain",
+    value: isExternal ? "northstartech.ca" : "algomau.ca",
+    mono: true
+  },
+  {
+    label: "Trust Registry",
+    value: "Active",
+    success: true
+  },
+  {
+    label: "Authentication",
+    value: isExternal
+      ? "Corporate identity + MFA verified"
+      : "Institution SSO verified",
+    success: true
+  },
+  {
+    label: "Role",
+    value: isStudent
+      ? "Student / Learner"
+      : isExternal
+      ? "Organization Administrator / Placement Attestor"
+      : "Credential Administrator",
+    blue: true,
+    violet: isStudent
+  },
+  {
+    label: "Permission Profile",
+    value: isStudent
+      ? "Personal Credential Access"
+      : isExternal
+      ? "External Attestation Operations"
+      : "Institution Credential Operations",
+    blue: true,
+    violet: isStudent
+  },
+  {
+    label: "Tenant ID",
+    value: isExternal
+      ? "tenant_northstar_001"
+      : "tenant_algoma_001",
+    mono: true
+  },
+  {
+    label: "Data Scope",
+    value: isStudent
+      ? "Own credential records only"
+      : isExternal
+      ? "Assigned attestation requests only"
+      : "Institution credential operations",
+    warn: isStudent || isExternal
+  },
+].map((item, idx) => (
+  <div key={idx} style={{ background: "#F9FAFB", border: "1px solid #E5E7EB", borderRadius: 8, padding: "12px 14px" }}>
+    <p style={{ fontSize: 12, fontWeight: 600, color: "#6B7280", margin: "0 0 6px", textTransform: "uppercase", letterSpacing: 0.5 }}>{item.label}</p>
+    <p style={{ fontSize: 14, fontWeight: 500, color: item.highlight ? "#167A5A" : item.success ? "#167A5A" : item.warn ? "#D97706" : item.blue ? "#2563EB" : "#111827", margin: 0, fontFamily: item.mono ? "'JetBrains Mono', monospace" : "inherit", opacity: item.warn ? 0.8 : 1 }}>{item.value}</p>
+  </div>
+))}
+              {isExternal && (
+  <div
+    style={{
+      background: "#F0FDFA",
+      border: "1px solid #99F6E4",
+      borderRadius: 8,
+      padding: "12px 14px",
+      marginBottom: 16,
+    }}
+  >
+    <p
+      style={{
+        color: "#0F766E",
+        fontSize: 12,
+        fontWeight: 700,
+        margin: "0 0 5px",
+      }}
+    >
+      Approved external attestation authority
+    </p>
+
+    <p
+      style={{
+        color: "#374151",
+        fontSize: 11,
+        margin: 0,
+        lineHeight: 1.6,
+      }}
+    >
+      NorthStar Technologies is authorized to respond to
+      Employment / Placement Verification requests only.
+      Access is restricted to requests specifically assigned
+      to NorthStar. No Algoma University tenant access is granted.
+    </p>
+  </div>
+)}
             </div>
 
             {isStudent && (
@@ -139,13 +253,41 @@ export default function Screen02TenantResolution({ navigate, persona }: Props) {
               </div>
             )}
 
-            {!isStudent && (
+            {!isStudent && !isExternal && (
               <div style={{ background: "#F8F9FC", border: "1px solid #E4E7EC", borderRadius: 8, padding: "10px 14px", marginBottom: 16 }}>
                 <p style={{ color: "#667085", fontSize: 12, margin: 0, lineHeight: 1.5 }}>
                   <strong style={{ color: "#374151" }}>Tenant isolation active.</strong> Every request carries the resolved tenant context. PostgreSQL RLS prevents one institution from accessing another's data.
                 </p>
               </div>
             )}
+
+            {isExternal && (
+  <div
+    style={{
+      background: "#F8F9FC",
+      border: "1px solid #E4E7EC",
+      borderRadius: 8,
+      padding: "10px 14px",
+      marginBottom: 16,
+    }}
+  >
+    <p
+      style={{
+        color: "#667085",
+        fontSize: 12,
+        margin: 0,
+        lineHeight: 1.5,
+      }}
+    >
+      <strong style={{ color: "#374151" }}>
+        Cross-tenant isolation active.
+      </strong>{" "}
+      NorthStar operates inside its own restricted LinkCert
+      organization workspace. It cannot access Algoma University's
+      tenant. Only explicitly assigned attestation requests are shared.
+    </p>
+  </div>
+)}
 
             <button
               onClick={() => navigate(destScreen)}
@@ -156,7 +298,11 @@ export default function Screen02TenantResolution({ navigate, persona }: Props) {
                 fontWeight: 600, cursor: "pointer", fontFamily: "inherit"
               }}
             >
-              {isStudent ? "Enter Student Workspace →" : "Enter Algoma University workspace →"}
+              {isStudent
+  ? "Enter Student Workspace →"
+  : isExternal
+  ? "Continue to NorthStar Technologies →"
+  : "Enter Algoma University Workspace →"}
             </button>
           </div>
         )}

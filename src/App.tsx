@@ -54,8 +54,7 @@ import StudentCredentialDetail from "./screens/student/StudentCredentialDetail"
 import StudentShare from "./screens/student/StudentShare"
 import StudentSubmissions from "./screens/student/StudentSubmissions"
 
-export type Persona = "admin" | "student"
-
+export type Persona = "admin" | "student" | "external"
 export type Screen =
   // Admin screens
   | "login"

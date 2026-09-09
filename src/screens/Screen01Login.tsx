@@ -27,6 +27,17 @@ const personas = [
     color: "#6941C6",
     bg: "#F4F0FD",
   },
+
+  {
+  id: "external" as Persona,
+  name: "Sarah Thompson",
+  email: "sarah.thompson@northstartech.ca",
+  role: "Organization Administrator / Placement Attestor",
+  org: "NorthStar Technologies",
+  initials: "ST",
+  color: "#0F766E",
+  bg: "#F0FDFA",
+},
 ]
 
 export default function Screen01Login({ navigate, onSelectPersona }: Props) {
@@ -36,13 +47,37 @@ export default function Screen01Login({ navigate, onSelectPersona }: Props) {
   const [showDemo, setShowDemo] = useState(false)
 
   const handleContinue = () => {
-    onSelectPersona(selectedPersona)
+  const normalizedEmail = email.trim().toLowerCase()
+
+  if (normalizedEmail.endsWith("@northstartech.ca")) {
+    onSelectPersona("external")
+    return
   }
 
-  const handlePersonaSelect = (p: Persona) => {
-    setSelectedPersona(p)
-    setEmail(p === "admin" ? "alex.morgan@algomau.ca" : "olivia.chen@algomau.ca")
+  if (normalizedEmail === "olivia.chen@algomau.ca") {
+    onSelectPersona("student")
+    return
   }
+
+  if (normalizedEmail.endsWith("@algomau.ca")) {
+    onSelectPersona(selectedPersona === "student" ? "student" : "admin")
+    return
+  }
+
+  onSelectPersona(selectedPersona)
+}
+
+  const handlePersonaSelect = (p: Persona) => {
+  setSelectedPersona(p)
+
+  if (p === "admin") {
+    setEmail("alex.morgan@algomau.ca")
+  } else if (p === "student") {
+    setEmail("olivia.chen@algomau.ca")
+  } else {
+    setEmail("sarah.thompson@northstartech.ca")
+  }
+}
 
   return (
     <div style={{ display: "flex", height: "100vh", width: "100%" }}>
@@ -207,13 +242,23 @@ export default function Screen01Login({ navigate, onSelectPersona }: Props) {
                     onClick={handleContinue}
                     style={{
                       width: "100%", padding: "9px 16px",
-                      background: selectedPersona === "student" ? "#6941C6" : "#3157E5",
+                      background:
+                      selectedPersona === "student"
+                      ? "#6941C6"
+                      : selectedPersona === "external"
+                      ? "#0F766E"
+                      : "#3157E5",
                       color: "#FFFFFF", border: "none", borderRadius: 7,
                       fontSize: 13, fontWeight: 600, cursor: "pointer", fontFamily: "inherit"
                     }}
                   >
-                    Sign in as {selectedPersona === "admin" ? "Alex Morgan" : "Olivia Chen"} →
-                  </button>
+                    Sign in as {
+                    selectedPersona === "admin"
+                    ? "Alex Morgan"
+                    : selectedPersona === "student"
+                      ? "Olivia Chen"
+                    : "Sarah Thompson"
+                    } →                  </button>
                 </div>
               </div>
             )}
