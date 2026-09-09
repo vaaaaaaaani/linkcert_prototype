@@ -73,7 +73,7 @@ const accentBg = isStudent
   const destScreen: Screen = isStudent
   ? "student-home"
   : isExternal
-  ? "ns-returning-org"
+  ? "ns-request-inbox"
   : "dashboard"
 
   return (
@@ -301,7 +301,7 @@ const accentBg = isStudent
               {isStudent
   ? "Enter Student Workspace →"
   : isExternal
-  ? "Continue to NorthStar Technologies →"
+  ? "Enter NorthStar Attestor Workspace →"
   : "Enter Algoma University Workspace →"}
             </button>
           </div>
