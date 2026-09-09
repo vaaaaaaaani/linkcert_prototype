@@ -40,6 +40,11 @@ import NSTrustDetails from "./screens/northstar/NSTrustDetails"
 import NSReturningOrg from "./screens/northstar/NSReturningOrg"
 import NSFailure from "./screens/northstar/NSFailure"
 import NSSuspended from "./screens/northstar/NSSuspended"
+// External organization user onboarding
+import ExternalInvite from "./screens/external/ExternalInvite"
+import ExternalWelcome from "./screens/external/ExternalWelcome"
+import ExternalSecuritySetup from "./screens/external/ExternalSecuritySetup"
+import ExternalAccountReady from "./screens/external/ExternalAccountReady"
 // Student screens
 import StudentHome from "./screens/student/StudentHome"
 import StudentCredentials from "./screens/student/StudentCredentials"
@@ -98,6 +103,11 @@ export type Screen =
   | "ns-returning-org"
   | "ns-failure"
   | "ns-suspended"
+  // External organization user onboarding
+  | "external-invite"
+  | "external-welcome"
+  | "external-security-setup"
+  | "external-account-ready"
   // Student screens
   | "student-home"
   | "student-credentials"
@@ -119,6 +129,12 @@ export default function App() {
   const navigate = (s: Screen) => setScreen(s)
   const setPersonaAndNavigate = (p: Persona) => {
     setPersona(p)
+
+    if (p === "external") {
+      setScreen("external-invite")
+      return
+    }
+
     setScreen("tenant-resolution")
   }
 
@@ -131,7 +147,7 @@ export default function App() {
   return (
     <div style={{ height: "100vh", overflow: "hidden", display: "flex", flexDirection: "column" }}>
       {/* Progress bar */}
-      {!["login", "tenant-resolution", "external-portal", "attestation-signed", "public-verification", "hash-verification", "tamper-demo"].includes(screen) && !isNSScreen && (
+      {!["login", "tenant-resolution", "external-invite", "external-welcome", "external-security-setup", "external-account-ready", "external-portal", "attestation-signed", "public-verification", "hash-verification", "tamper-demo"].includes(screen) && !isNSScreen && (
         <div style={{ position: "fixed", top: 0, left: 0, right: 0, height: 2, background: "#E4E7EC", zIndex: 1000 }}>
           <div style={{
             height: "100%",
@@ -146,6 +162,12 @@ export default function App() {
         {/* Auth */}
         {screen === "login" && <Screen01Login navigate={navigate} onSelectPersona={setPersonaAndNavigate} />}
         {screen === "tenant-resolution" && <Screen02TenantResolution navigate={navigate} persona={persona} />}
+
+        {/* External organization first-time user onboarding */}
+        {screen === "external-invite" && <ExternalInvite navigate={navigate} />}
+        {screen === "external-welcome" && <ExternalWelcome navigate={navigate} />}
+        {screen === "external-security-setup" && <ExternalSecuritySetup navigate={navigate} />}
+        {screen === "external-account-ready" && <ExternalAccountReady navigate={navigate} />}
 
         {/* Admin screens */}
         {screen === "dashboard" && <Screen03Dashboard {...screenProps} />}

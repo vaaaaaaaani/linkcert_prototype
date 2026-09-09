@@ -36,8 +36,8 @@ export default function Screen11AttestationSigned({ navigate }: Props) {
           <div style={{ padding: "24px 28px" }}>
             <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 14, marginBottom: 20 }}>
               {[
-                { label: "Organization", value: "Northstar Technologies" },
-                { label: "Approver", value: "Sarah Thompson" },
+                { label: "Organization", value: "NorthStar Technologies" },
+                { label: "Authorized Attestor", value: "Sarah Thompson" },
                 { label: "Role", value: "Placement Supervisor" },
                 { label: "Organization ID", value: "ORG-NT-01827", mono: true },
                 { label: "Attestation ID", value: "ATT-2026-982271", mono: true },
@@ -70,7 +70,7 @@ export default function Screen11AttestationSigned({ navigate }: Props) {
                 <circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/>
               </svg>
               <div>
-                <p style={{ color: "#3157E5", fontSize: 13, fontWeight: 700, margin: "0 0 3px" }}>External organization signed the approval evidence</p>
+                <p style={{ color: "#3157E5", fontSize: 13, fontWeight: 700, margin: "0 0 3px" }}>NorthStar signed the external attestation</p>
                 <p style={{ color: "#374151", fontSize: 12, lineHeight: 1.5, margin: 0 }}>
                   This does not issue the credential. The signed attestation is returned to Algoma University for final institutional review and signing.
                 </p>
@@ -84,14 +84,14 @@ export default function Screen11AttestationSigned({ navigate }: Props) {
                 <div style={{ height: 1, flex: 1, background: "#E4E7EC" }} />
               </div>
               <button
-                onClick={() => navigate("university-approval")}
+                onClick={() => navigate("ns-request-inbox")}
                 style={{
                   padding: "11px 28px", background: "#3157E5", color: "#FFFFFF",
                   border: "none", borderRadius: 8, fontSize: 13,
                   fontWeight: 600, cursor: "pointer", fontFamily: "inherit"
                 }}
               >
-                Return to Institution →
+                Return to NorthStar Requests →
               </button>
             </div>
           </div>
