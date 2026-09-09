@@ -1,0 +1,10 @@
+{
+  "description": "Streamlines project workflows by converting design files into interactive web interfaces, enhancing collaboration and accelerating development for teams.",
+  "robots": {
+    "index": false
+  },
+  "accessibility": {
+    "addBypassLinks": false,
+    "ignoreReducedMotion": false
+  }
+}
