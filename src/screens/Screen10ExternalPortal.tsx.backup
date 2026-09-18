@@ -22,7 +22,7 @@ export default function Screen10ExternalPortal({ navigate }: Props) {
             <svg width="13" height="13" viewBox="0 0 18 18" fill="none"><path d="M3 9h12M9 3l6 6-6 6" stroke="white" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"/></svg>
           </div>
           <span style={{ color: "#FFFFFF", fontWeight: 700, fontSize: 15 }}>LinkCert</span>
-          <span style={{ color: "rgba(255,255,255,0.4)", fontSize: 13, marginLeft: 4 }}>NorthStar Technologies · Request Review</span>
+          <span style={{ color: "rgba(255,255,255,0.4)", fontSize: 13, marginLeft: 4 }}>Secure Attestation Portal</span>
         </div>
         <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
           <div style={{ width: 8, height: 8, borderRadius: "50%", background: "#4ADE80" }} />
@@ -40,7 +40,7 @@ export default function Screen10ExternalPortal({ navigate }: Props) {
           }}>
             <div style={{ width: 36, height: 36, borderRadius: 8, background: "#1E3A5F", display: "flex", alignItems: "center", justifyContent: "center", fontSize: 11, fontWeight: 700, color: "#60A5FA" }}>NT</div>
             <div>
-              <p style={{ color: "#111827", fontSize: 14, fontWeight: 700, margin: 0 }}>NorthStar Technologies</p>
+              <p style={{ color: "#111827", fontSize: 14, fontWeight: 700, margin: 0 }}>Northstar Technologies</p>
               <p style={{ color: "#667085", fontSize: 12, margin: 0 }}>sarah.thompson@northstartech.ca</p>
             </div>
             <span style={{
@@ -61,9 +61,9 @@ export default function Screen10ExternalPortal({ navigate }: Props) {
           <div style={{ padding: "22px 24px" }}>
             <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 16, marginBottom: 20 }}>
               {[
-                { label: "Subject", value: "Olivia Chen" },
+                { label: "Recipient", value: "Olivia Chen" },
                 { label: "Credential Claim", value: "Completed approved co-op placement" },
-                { label: "Organization", value: "NorthStar Technologies" },
+                { label: "Organization", value: "Northstar Technologies" },
                 { label: "Position", value: "Software Developer Intern" },
                 { label: "Placement Dates", value: "May 4 – August 28, 2026" },
                 { label: "Required Hours", value: "560" },

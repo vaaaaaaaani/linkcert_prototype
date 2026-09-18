@@ -31,11 +31,10 @@ export default function Screen09VerifyExtOrg({ navigate, currentScreen }: Props)
         <div style={{ padding: "32px" }}>
           <div style={{ marginBottom: 24 }}>
             <h1 style={{ fontSize: 20, fontWeight: 700, color: "#111827", margin: "0 0 6px", letterSpacing: "-0.01em" }}>
-              Verify External Approver
+              Verify External Organization & Attestor
             </h1>
             <p style={{ color: "#667085", fontSize: 14, margin: 0 }}>
-              Only registered organizations with an approved attestation role may sign external approval events.
-            </p>
+              NorthStar Technologies must be an active trusted organization, and the selected user must be authorized for this attestation scope before a request can be sent.
           </div>
 
           <div style={{ display: "grid", gridTemplateColumns: "1fr 380px", gap: 20 }}>
@@ -47,9 +46,9 @@ export default function Screen09VerifyExtOrg({ navigate, currentScreen }: Props)
                     <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M3 8l3.5 3.5L13 5" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/></svg>
                   </div>
                   <div>
-                    <p style={{ color: "#167A5A", fontWeight: 700, fontSize: 14, margin: 0 }}>Organization Verified in Trust Registry</p>
-                    <p style={{ color: "#167A5A", fontSize: 12, margin: 0, opacity: 0.75 }}>All verification checks passed · LinkBlock Trust Registry</p>
-                  </div>
+                  <p style={{ color: "#167A5A", fontWeight: 700, fontSize: 14, margin: 0 }}>
+  NorthStar Technologies Is Authorized for This Request
+</p>                    <p style={{ color: "#167A5A", fontSize: 12, margin: 0, opacity: 0.75 }}>Organization active · Scope approved · Authorized attestor available</p>
                 </div>
 
                 <div style={{ padding: "20px 22px" }}>
@@ -104,11 +103,48 @@ export default function Screen09VerifyExtOrg({ navigate, currentScreen }: Props)
             {/* Select approver */}
             <div style={{ display: "flex", flexDirection: "column", gap: 16 }}>
               <div style={{ background: "#FFFFFF", border: "1px solid #E4E7EC", borderRadius: 12, padding: 22 }}>
-                <h3 style={{ fontSize: 13, fontWeight: 600, color: "#111827", margin: "0 0 14px" }}>Select Registered Approver</h3>
+                <h3 style={{ fontSize: 13, fontWeight: 600, color: "#111827", margin: "0 0 14px" }}>
+  Request Recipient
+</h3>
                 <div style={{
                   background: "#F9FAFB", border: "2px solid #3157E5",
                   borderRadius: 10, padding: "14px 16px", marginBottom: 14
                 }}>
+                  <div style={{
+  background: "#EEF2FF",
+  border: "1px solid #C7D2FE",
+  borderRadius: 8,
+  padding: "12px 14px",
+  marginBottom: 12
+}}>
+  <p style={{
+    color: "#667085",
+    fontSize: 10,
+    fontWeight: 600,
+    letterSpacing: "0.04em",
+    margin: "0 0 4px"
+  }}>
+    EXTERNAL ORGANIZATION
+  </p>
+
+  <p style={{
+    color: "#111827",
+    fontSize: 13,
+    fontWeight: 700,
+    margin: "0 0 2px"
+  }}>
+    NorthStar Technologies
+  </p>
+
+  <p style={{
+    color: "#667085",
+    fontSize: 11,
+    margin: 0,
+    fontFamily: "'JetBrains Mono', monospace"
+  }}>
+    ORG-NT-01827 · tenant_northstar_001
+  </p>
+</div> 
                   <div style={{ display: "flex", alignItems: "center", gap: 10, marginBottom: 10 }}>
                     <div style={{ width: 36, height: 36, borderRadius: "50%", background: "#EEF2FF", display: "flex", alignItems: "center", justifyContent: "center", fontSize: 12, fontWeight: 700, color: "#3157E5" }}>ST</div>
                     <div>
@@ -135,15 +171,80 @@ export default function Screen09VerifyExtOrg({ navigate, currentScreen }: Props)
                   </div>
                 </div>
 
-                <div style={{ background: "#F9FAFB", border: "1px solid #E4E7EC", borderRadius: 8, padding: "10px 14px", marginBottom: 16 }}>
-                  <p style={{ color: "#374151", fontSize: 12, fontWeight: 600, margin: "0 0 4px" }}>Attestation request will include:</p>
-                  <ul style={{ color: "#667085", fontSize: 12, margin: 0, paddingLeft: 16, lineHeight: 1.7 }}>
-                    <li>Recipient: Olivia Chen</li>
-                    <li>Placement details & dates</li>
-                    <li>Required confirmation checklist</li>
-                    <li>Secure signing link (time-limited)</li>
-                  </ul>
-                </div>
+                <div style={{
+  background: "#F9FAFB",
+  border: "1px solid #E4E7EC",
+  borderRadius: 8,
+  padding: "14px",
+  marginBottom: 16
+}}>
+  <p style={{
+    color: "#374151",
+    fontSize: 12,
+    fontWeight: 700,
+    margin: "0 0 10px"
+  }}>
+    Verification Request
+  </p>
+
+  {[
+    { label: "Requested by", value: "Algoma University" },
+    { label: "Recipient organization", value: "NorthStar Technologies" },
+    { label: "Authorized attestor", value: "Sarah Thompson" },
+    { label: "Subject", value: "Olivia Chen" },
+    { label: "Credential", value: "Professional Placement Credential" },
+    { label: "Verification scope", value: "Employment / Placement Verification" },
+  ].map(item => (
+    <div
+      key={item.label}
+      style={{
+        display: "flex",
+        justifyContent: "space-between",
+        gap: 16,
+        padding: "6px 0",
+        borderBottom: item.label !== "Verification scope"
+          ? "1px solid #E4E7EC"
+          : "none"
+      }}
+    >
+      <span style={{
+        color: "#9CA3AF",
+        fontSize: 11
+      }}>
+        {item.label}
+      </span>
+
+      <span style={{
+        color: "#374151",
+        fontSize: 11,
+        fontWeight: 500,
+        textAlign: "right"
+      }}>
+        {item.value}
+      </span>
+    </div>
+  ))}
+
+  <div style={{
+    marginTop: 12,
+    background: "#FFFFFF",
+    border: "1px solid #E4E7EC",
+    borderRadius: 6,
+    padding: "10px 12px"
+  }}>
+    <p style={{
+      color: "#667085",
+      fontSize: 11,
+      margin: 0,
+      lineHeight: 1.5
+    }}>
+      Sarah will receive a notification and the request will appear inside
+      NorthStar Technologies' restricted LinkCert workspace. Olivia's
+      credential information remains limited to the scope required for this
+      verification.
+    </p>
+  </div>
+</div>
 
                 <button
                   onClick={() => navigate("external-portal")}
